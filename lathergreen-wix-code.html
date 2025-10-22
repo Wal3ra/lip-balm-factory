@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LatherGreen Lip Balm Factory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafb;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section with Video */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .background-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Mute Button */
+        .mute-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mute-button:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(1.1);
+        }
+
+        .mute-button svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        /* Content Section */
+        .content-section {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+            padding: 60px 20px 40px;
+            text-align: center;
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: #2d5016;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-description {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: #4a6741;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a7c59, #2d5016);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
+            background: linear-gradient(135deg, #5a8f69, #3d6b26);
+        }
+
+        /* Flavor Selection Section */
+        .flavor-section {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2d5016;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 50px;
+        }
+
+        .flavor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .flavor-card {
+            background: #f8fafb;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .flavor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #4a7c59;
+        }
+
+        .flavor-card.selected {
+            background: linear-gradient(135deg, #4a7c59, #2d5016);
+            color: white;
+            border-color: #2d5016;
+        }
+
+        .flavor-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #e8f5e8, #d4edd4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .flavor-card.selected .flavor-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .flavor-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .flavor-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .selected-flavors {
+            background: #f0f7f0;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .selected-flavors h3 {
+            color: #2d5016;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .flavor-combination {
+            font-size: 1.1rem;
+            color: #4a6741;
+            margin-bottom: 20px;
+        }
+
+        /* Ingredients Section */
+        .ingredients-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f8fafb, #e8f5e8);
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .ingredient-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .ingredient-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, #4a7c59, #2d5016);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .ingredient-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d5016;
+            margin-bottom: 8px;
+        }
+
+        .ingredient-benefit {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2d5016;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #a8d5a8;
+        }
+
+        .footer-text {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content-section {
+                padding: 40px 15px 30px;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .main-description {
+                font-size: 1rem;
+            }
+
+            .flavor-grid,
+            .ingredients-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Sound Button */
+        .sound-button {
+            background: rgba(74, 124, 89, 0.9);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sound-button:hover {
+            background: rgba(45, 80, 22, 0.9);
+            transform: scale(1.05);
+        }
+
+        .sound-button svg {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section with Video -->
+    <section class="hero-section">
+        <div class="video-container">
+            <video class="background-video" autoplay loop muted playsinline>
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Mute Button -->
+        <button class="mute-button" id="muteButton" aria-label="Toggle sound">
+            <svg id="muteIcon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path>
+            </svg>
+            <svg id="unmuteIcon" style="display: none;" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+
+        <!-- Content Section -->
+        <div class="content-section fade-in">
+            <div class="content-wrapper">
+                <h1 class="main-title">LatherGreen Lip Balm Factory</h1>
+                <p class="main-description">
+                    Create your custom lip balm with premium ingredients. Mix up to 2 flavors to craft your perfect blend.
+                </p>
+                <button class="sound-button" id="enableSoundBtn">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path>
+                    </svg>
+                    Enable Sound
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flavor Selection Section -->
+    <section class="flavor-section">
+        <div class="section-container">
+            <h2 class="section-title">Choose Your Flavors</h2>
+            <p class="section-subtitle">Select up to 2 flavors to create your perfect lip balm blend</p>
+            
+            <div class="flavor-grid">
+                <div class="flavor-card" data-flavor="peppermint">
+                    <div class="flavor-icon">🌿</div>
+                    <h3 class="flavor-name">Peppermint</h3>
+                    <p class="flavor-description">Refreshing and cooling with a crisp, clean sensation</p>
+                </div>
+                
+                <div class="flavor-card" data-flavor="vanilla">
+                    <div class="flavor-icon">🌼</div>
+                    <h3 class="flavor-name">Vanilla Bean</h3>
+                    <p class="flavor-description">Sweet and comforting with warm, creamy notes</p>
+                </div>
+                
+                <div class="flavor-card" data-flavor="citrus">
+                    <div class="flavor-icon">🍊</div>
+                    <h3 class="flavor-name">Citrus Burst</h3>
+                    <p class="flavor-description">Energizing blend of orange and lemon</p>
+                </div>
+                
+                <div class="flavor-card" data-flavor="lavender">
+                    <div class="flavor-icon">💜</div>
+                    <h3 class="flavor-name">Lavender</h3>
+                    <p class="flavor-description">Calming and floral with soothing properties</p>
+                </div>
+                
+                <div class="flavor-card" data-flavor="berry">
+                    <div class="flavor-icon">🫐</div>
+                    <h3 class="flavor-name">Mixed Berry</h3>
+                    <p class="flavor-description">Sweet and tangy blend of summer berries</p>
+                </div>
+                
+                <div class="flavor-card" data-flavor="honey">
+                    <div class="flavor-icon">🍯</div>
+                    <h3 class="flavor-name">Honey</h3>
+                    <p class="flavor-description">Naturally sweet with moisturizing benefits</p>
+                </div>
+            </div>
+            
+            <div class="selected-flavors">
+                <h3>Your Custom Blend</h3>
+                <div class="flavor-combination" id="flavorCombination">
+                    Select up to 2 flavors to begin
+                </div>
+                <button class="cta-button" id="createButton" disabled>Create My Lip Balm</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ingredients Section -->
+    <section class="ingredients-section">
+        <div class="section-container">
+            <h2 class="section-title">Premium Ingredients</h2>
+            <p class="section-subtitle">Only the finest natural components for your lips</p>
+            
+            <div class="ingredients-grid">
+                <div class="ingredient-card">
+                    <div class="ingredient-icon">🌰</div>
+                    <h3 class="ingredient-name">Shea Butter</h3>
+                    <p class="ingredient-benefit">Deep moisturizing and protection</p>
+                </div>
+                
+                <div class="ingredient-card">
+                    <div class="ingredient-icon">🥥</div>
+                    <h3 class="ingredient-name">Coconut Oil</h3>
+                    <p class="ingredient-benefit">Natural hydration and shine</p>
+                </div>
+                
+                <div class="ingredient-card">
+                    <div class="ingredient-icon">🌱</div>
+                    <h3 class="ingredient-name">Beeswax</h3>
+                    <p class="ingredient-benefit">Protective barrier and texture</p>
+                </div>
+                
+                <div class="ingredient-card">
+                    <div class="ingredient-icon">🌿</div>
+                    <h3 class="ingredient-name">Vitamin E</h3>
+                    <p class="ingredient-benefit">Antioxidant and healing properties</p>
+                </div>
+                
+                <div class="ingredient-card">
+                    <div class="ingredient-icon">🌻</div>
+                    <h3 class="ingredient-name">Jojoba Oil</h3>
+                    <p class="ingredient-benefit">Similar to natural skin oils</p>
+                </div>
+                
+                <div class="ingredient-card">
+                    <div class="ingredient-icon">🍃</div>
+                    <h3 class="ingredient-name">Green Tea Extract</h3>
+                    <p class="ingredient-benefit">Anti-inflammatory benefits</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">LatherGreen</div>
+            <p class="footer-text">
+                Crafting natural, premium lip care products since 2024. 
+                Our commitment to quality ingredients ensures your lips get the best care possible.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Video and Sound Controls
+        const video = document.querySelector('.background-video');
+        const muteButton = document.getElementById('muteButton');
+        const muteIcon = document.getElementById('muteIcon');
+        const unmuteIcon = document.getElementById('unmuteIcon');
+        const enableSoundBtn = document.getElementById('enableSoundBtn');
+        
+        let isMuted = true;
+
+        // Mute/Unmute functionality
+        muteButton.addEventListener('click', function() {
+            isMuted = !isMuted;
+            video.muted = isMuted;
+            
+            if (isMuted) {
+                muteIcon.style.display = 'block';
+                unmuteIcon.style.display = 'none';
+            } else {
+                muteIcon.style.display = 'none';
+                unmuteIcon.style.display = 'block';
+            }
+        });
+
+        // Enable Sound button
+        enableSoundBtn.addEventListener('click', function() {
+            isMuted = false;
+            video.muted = false;
+            muteIcon.style.display = 'none';
+            unmuteIcon.style.display = 'block';
+            
+            // Update button text
+            this.innerHTML = `
+                <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path>
+                </svg>
+                Sound Enabled
+            `;
+        });
+
+        // Flavor Selection
+        const flavorCards = document.querySelectorAll('.flavor-card');
+        const flavorCombination = document.getElementById('flavorCombination');
+        const createButton = document.getElementById('createButton');
+        let selectedFlavors = [];
+
+        flavorCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const flavor = this.dataset.flavor;
+                const flavorName = this.querySelector('.flavor-name').textContent;
+                
+                if (this.classList.contains('selected')) {
+                    // Remove flavor
+                    this.classList.remove('selected');
+                    selectedFlavors = selectedFlavors.filter(f => f.name !== flavorName);
+                } else {
+                    // Add flavor if less than 2 selected
+                    if (selectedFlavors.length < 2) {
+                        this.classList.add('selected');
+                        selectedFlavors.push({ name: flavorName, id: flavor });
+                    } else {
+                        // Replace first selected flavor
+                        const firstCard = document.querySelector('.flavor-card.selected');
+                        firstCard.classList.remove('selected');
+                        selectedFlavors.shift();
+                        
+                        this.classList.add('selected');
+                        selectedFlavors.push({ name: flavorName, id: flavor });
+                    }
+                }
+                
+                updateFlavorCombination();
+            });
+        });
+
+        function updateFlavorCombination() {
+            if (selectedFlavors.length === 0) {
+                flavorCombination.textContent = 'Select up to 2 flavors to begin';
+                createButton.disabled = true;
+            } else if (selectedFlavors.length === 1) {
+                flavorCombination.textContent = `${selectedFlavors[0].name} + Select one more flavor`;
+                createButton.disabled = true;
+            } else {
+                flavorCombination.textContent = `${selectedFlavors[0].name} + ${selectedFlavors[1].name}`;
+                createButton.disabled = false;
+            }
+        }
+
+        // Create button functionality
+        createButton.addEventListener('click', function() {
+            if (selectedFlavors.length === 2) {
+                alert(`Creating your custom lip balm with ${selectedFlavors[0].name} and ${selectedFlavors[1].name}! This would typically proceed to checkout or customization details.`);
+            }
+        });
+
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
