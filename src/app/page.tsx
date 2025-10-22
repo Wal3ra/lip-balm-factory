@@ -337,7 +337,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <video
-          className="w-full h-96 object-cover"
+          className="w-full h-[600px] object-cover"
           autoPlay
           muted={isMuted}
           loop
