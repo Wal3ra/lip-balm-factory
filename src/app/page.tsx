@@ -291,7 +291,7 @@ export default function Home() {
     }, 1500);
   };
 
-  const copySummary = () => {
+  const copySummary = async () => {
     const selectedBase = BASES.find(b => b.id === base);
     const selectedPackaging = PACKAGING.find(p => p.id === packaging);
     
@@ -306,8 +306,86 @@ export default function Home() {
       '6 lip balms of your unique creation will be made for you.'
     ].join('\n');
 
-    navigator.clipboard.writeText(summary);
-    toast.success('Summary copied to clipboard');
+    console.log('Attempting to copy summary:', summary);
+
+    // Method 1: Try modern Clipboard API first
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(summary);
+        console.log('✅ Copied using modern Clipboard API');
+        toast.success('Summary copied to clipboard!');
+        return;
+      } catch (err) {
+        console.log('❌ Clipboard API failed:', err);
+      }
+    }
+
+    // Method 2: Try execCommand fallback
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = summary;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      textArea.style.top = '-9999px';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      if (successful) {
+        console.log('✅ Copied using execCommand fallback');
+        toast.success('Summary copied to clipboard!');
+        return;
+      } else {
+        console.log('❌ execCommand failed');
+      }
+    } catch (err) {
+      console.log('❌ execCommand error:', err);
+    }
+
+    // Method 3: Manual copy prompt
+    try {
+      // Create a temporary input to show user what to copy
+      const textArea = document.createElement('textarea');
+      textArea.value = summary;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '50%';
+      textArea.style.top = '50%';
+      textArea.style.transform = 'translate(-50%, -50%)';
+      textArea.style.width = '400px';
+      textArea.style.height = '200px';
+      textArea.style.padding = '10px';
+      textArea.style.fontSize = '14px';
+      textArea.style.border = '2px solid #059669';
+      textArea.style.borderRadius = '8px';
+      textArea.style.zIndex = '9999';
+      textArea.readOnly = false;
+      
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      // Show instruction
+      toast.info('Please press Ctrl+C (or Cmd+C on Mac) to copy');
+      
+      // Remove after 5 seconds
+      setTimeout(() => {
+        if (document.body.contains(textArea)) {
+          document.body.removeChild(textArea);
+        }
+      }, 5000);
+      
+      console.log('📋 Manual copy mode activated');
+    } catch (err) {
+      console.log('❌ Manual copy failed:', err);
+      
+      // Last resort: Show in alert
+      alert('Copy failed. Here is your summary:\n\n' + summary);
+      toast.error('Could not copy automatically. Text shown in alert.');
+    }
   };
 
   const totalPrice = PACKAGING.find(p => p.id === packaging)?.price || 26;
@@ -334,45 +412,69 @@ export default function Home() {
         </div>
       )}
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
+      {/* VIDEO SECTION - COMPLETELY CLEAN */}
+      <div className="bg-black" style={{ height: '600px', position: 'relative' }}>
         <video
-          className="w-full h-[600px] object-cover"
+          style={{ 
+            width: '100%', 
+            height: '600px', 
+            objectFit: 'cover',
+            position: 'absolute',
+            top: 0,
+            left: 0
+          }}
           autoPlay
           muted={isMuted}
           loop
           playsInline
-          src="https://video.wixstatic.com/video/d0044c_f3d9ec42efca48c2879fbcbe6439db88/1080p/mp4/file.mp4"
+          src="https://video.wixstatic.com/video/d0044c_f3d9ec42efca48c2879fbcbe6439db88/1080p/mp4/file.mp4?v=3"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/40 via-green-900/35 to-emerald-900/40"></div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white p-8">
-            <div className="mb-6">
-              <img
-                src="https://static.wixstatic.com/media/d0044c_6e07f857eb834d8f86d5a0fb6c244f0e~mv2.png"
-                alt="LatherGreen Logo"
-                className="w-32 h-32 mx-auto mb-4 drop-shadow-lg"
-              />
-            </div>
-            <h1 className="text-5xl font-bold mb-4 drop-shadow-lg text-white">
-              LatherGreen Lip Balm Factory
-            </h1>
-            <p className="text-xl max-w-2xl mx-auto drop-shadow text-white">
-              Create your custom lip balm with premium ingredients. Mix up to 2 flavors to craft your perfect blend.
-            </p>
-            <Button
-              onClick={() => setIsMuted(!isMuted)}
-              variant="secondary"
-              className="mt-6 bg-gradient-to-r from-amber-600/40 to-yellow-600/40 hover:from-amber-600/50 hover:to-yellow-600/50 text-white border-white/40 backdrop-blur-sm"
-            >
-              {isMuted ? <VolumeX className="w-4 h-4 mr-2" /> : <Volume2 className="w-4 h-4 mr-2" />}
-              {isMuted ? 'Enable Sound' : 'Mute Sound'}
-            </Button>
-          </div>
-        </div>
-      </section>
+        <button
+          onClick={() => setIsMuted(!isMuted)}
+          style={{
+            position: 'absolute',
+            top: '16px',
+            right: '16px',
+            background: 'rgba(0,0,0,0.5)',
+            color: 'white',
+            border: '1px solid rgba(255,255,255,0.3)',
+            padding: '8px 16px',
+            borderRadius: '8px',
+            zIndex: 100
+          }}
+        >
+          {isMuted ? '🔇 Sound' : '🔊 Mute'}
+        </button>
+      </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      {/* TEXT SECTION - BELOW VIDEO */}
+      <div style={{ background: 'white', padding: '64px 0', borderBottom: '1px solid #e5e7eb' }}>
+        <div style={{ maxWidth: '896px', margin: '0 auto', padding: '0 16px', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '24px', color: '#111827' }}>
+            LatherGreen Lip Balm Factory
+          </h1>
+          <p style={{ fontSize: '20px', color: '#6b7280', marginBottom: '32px', lineHeight: '1.6' }}>
+            Create your custom lip balm with premium ingredients. Mix up to 2 flavors to craft your perfect blend.
+          </p>
+          <button
+            onClick={() => document.getElementById('customizer-section')?.scrollIntoView({ behavior: 'smooth' })}
+            style={{
+              background: '#059669',
+              color: 'white',
+              padding: '12px 32px',
+              borderRadius: '8px',
+              fontSize: '18px',
+              fontWeight: '500',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            Start Creating
+          </button>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8 max-w-6xl" id="customizer-section">
         {/* Educational Section */}
         <Card className="mb-8 bg-gradient-to-br from-stone-50 to-gray-50 border-l-4 border-l-stone-400">
           <CardHeader>
