@@ -221,6 +221,13 @@ export default function Home() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [selectedEffects, setSelectedEffects] = useState<Set<string>>(new Set());
+  const [checkoutBlocked, setCheckoutBlocked] = useState(false);
+
+  // Detect mobile device
+  const isMobileDevice = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+           (window.innerWidth <= 768);
+  };
 
   const toggleIngredientAccordion = (baseId: string) => {
     const newExpanded = new Set(expandedIngredients);
@@ -235,6 +242,9 @@ export default function Home() {
   const toggleFlavor = (flavor: Flavor) => {
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 500);
+    
+    // Reset checkout blocked state when user changes their selection
+    setCheckoutBlocked(false);
     
     const existingIndex = flavors.findIndex(f => f.id === flavor.id);
     if (existingIndex > -1) {
@@ -285,10 +295,51 @@ export default function Home() {
     }
 
     const selectedPackaging = PACKAGING.find(p => p.id === packaging) || PACKAGING[0];
-    toast.success('Opening checkout in new window...');
-    setTimeout(() => {
-      window.open(selectedPackaging.url, '_blank');
-    }, 1500);
+    const isMobile = isMobileDevice();
+    
+    // Mobile-friendly checkout approach
+    if (isMobile) {
+      // On mobile, use direct link approach to avoid popup blockers
+      toast.loading('Opening checkout...');
+      try {
+        const newWindow = window.open(selectedPackaging.url, '_blank', 'noopener,noreferrer');
+        
+        if (newWindow) {
+          toast.dismiss();
+          toast.success('Checkout opened!');
+          setCheckoutBlocked(false);
+        } else {
+          // Fallback for mobile
+          toast.dismiss();
+          setCheckoutBlocked(true);
+          toast.error('Tap the link below to checkout');
+        }
+      } catch (error) {
+        toast.dismiss();
+        setCheckoutBlocked(true);
+        toast.error('Tap the link below to checkout');
+      }
+    } else {
+      // Desktop: try popup first, then fallback
+      try {
+        toast.loading('Opening checkout...');
+        const newWindow = window.open(selectedPackaging.url, '_blank', 'noopener,noreferrer');
+        
+        if (newWindow) {
+          toast.dismiss();
+          toast.success('Checkout opened in new tab!');
+          setCheckoutBlocked(false);
+        } else {
+          toast.dismiss();
+          setCheckoutBlocked(true);
+          toast.error('Popup blocked. Please use the link below.');
+        }
+      } catch (error) {
+        toast.dismiss();
+        setCheckoutBlocked(true);
+        toast.error('Cannot open checkout. Please use the link below.');
+      }
+    }
   };
 
   const copySummary = async () => {
@@ -878,6 +929,7 @@ export default function Home() {
                   onClick={() => {
                     setPackaging(pkg.id);
                     setSelectedEffects(new Set([`packaging-${pkg.id}`]));
+                    setCheckoutBlocked(false); // Reset checkout blocked state
                     setTimeout(() => setSelectedEffects(new Set()), 1000);
                     toast.success(`🎁 ${pkg.name} selected! Your creation will look amazing!`);
                   }}
@@ -1053,6 +1105,27 @@ export default function Home() {
                     Copy Summary
                   </Button>
                 </div>
+                
+                {/* Fallback link for mobile browsers that block popups */}
+                {checkoutBlocked && (
+                  <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                    <p className="text-sm text-amber-800 mb-2">
+                      <strong>📱 Mobile checkout:</strong> Tap the link below
+                    </p>
+                    <a 
+                      href={PACKAGING.find(p => p.id === packaging)?.url || PACKAGING[0].url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center w-full text-sm text-white bg-emerald-600 hover:bg-emerald-700 font-medium py-3 px-4 rounded-lg transition-colors duration-200"
+                    >
+                      🛒 Go to Checkout
+                      <span className="ml-2 text-xs">(new tab)</span>
+                    </a>
+                    <p className="text-xs text-amber-700 mt-2 text-center">
+                      Link opens in new tab • Complete your order there
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </CardContent>
