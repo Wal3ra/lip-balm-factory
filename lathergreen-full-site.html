@@ -793,21 +793,40 @@
         /* Toast Notification */
         .toast {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
             background: var(--primary-green);
             color: white;
-            padding: 18px 25px;
+            padding: 15px 20px;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transform: translateX(400px);
             transition: transform 0.3s ease;
             z-index: 2000;
-            max-width: 350px;
+            max-width: 90vw;
+            width: auto;
+            text-align: center;
+            font-size: 0.9rem;
+            word-wrap: break-word;
         }
 
         .toast.show {
-            transform: translateX(0);
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Desktop toast positioning */
+        @media (min-width: 768px) {
+            .toast {
+                right: 30px;
+                left: auto;
+                transform: translateX(400px);
+                max-width: 350px;
+                text-align: left;
+            }
+
+            .toast.show {
+                transform: translateX(0);
+            }
         }
 
         /* Animations */
@@ -824,6 +843,211 @@
 
         .fade-in {
             animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Product Page Section */
+        .product-section {
+            padding: 100px 30px;
+            background: linear-gradient(135deg, var(--bg-light), var(--pale-green));
+            min-height: 100vh;
+        }
+
+        .product-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .back-link {
+            color: var(--sage-green);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-green);
+        }
+
+        /* Desktop Layout - Side by Side */
+        @media (min-width: 1024px) {
+            .product-section {
+                padding: 120px 30px;
+            }
+
+            .product-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 60px;
+                max-width: 1200px;
+                margin: 0 auto 60px;
+                align-items: start;
+            }
+
+            .blend-summary-container,
+            .order-details-container {
+                grid-column: 1 / -1;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .blend-summary-card,
+            .order-details-card {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                align-items: start;
+            }
+
+            .blend-summary-card h3,
+            .order-details-card h3 {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+        }
+
+        .product-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-placeholder {
+            background: white;
+            border-radius: 25px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .product-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .product-placeholder h3 {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--sage-green);
+        }
+
+        /* Blend Summary Container */
+        .blend-summary-container {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .blend-summary-card {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .blend-summary-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .selected-flavors-display {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: var(--pale-green);
+            border-radius: 15px;
+            font-size: 1.1rem;
+            color: var(--sage-green);
+            font-weight: 500;
+        }
+
+        .copy-summary-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Order Details Container */
+        .order-details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .order-details-card {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-details-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .order-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--sage-green);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group textarea[readonly] {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .order-actions button {
+            flex: 1;
         }
 
         /* Responsive Design */
@@ -904,6 +1128,33 @@
             .cta-description {
                 font-size: 1.1rem;
             }
+
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .product-placeholder {
+                padding: 40px 30px;
+            }
+
+            .blend-summary-card,
+            .order-details-card {
+                padding: 30px 20px;
+            }
+
+            .blend-summary-card,
+            .order-details-card {
+                display: block;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+
+            .product-section {
+                padding: 80px 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -915,7 +1166,8 @@
             .flavor-section,
             .ingredients-section,
             .process-section,
-            .testimonials-section {
+            .testimonials-section,
+            .product-section {
                 padding: 60px 15px;
             }
 
@@ -1322,6 +1574,96 @@
         </div>
     </section>
 
+    <!-- Product Page Section -->
+    <section class="product-section" id="product-page" style="display: none;">
+        <div class="section-container">
+            <div class="product-header">
+                <a href="#flavors" class="back-link">← Back to Flavor Selection</a>
+                <h2 class="section-title">Complete Your Order</h2>
+            </div>
+            
+            <div class="product-container">
+                <div class="product-image">
+                    <div class="product-placeholder">
+                        <div class="product-icon">🌿</div>
+                        <h3 id="product-name">Custom Lip Balm</h3>
+                        <p class="product-price" id="product-price">$12.99</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blend Summary Container -->
+            <div class="blend-summary-container">
+                <div class="blend-summary-card">
+                    <h3>Your Custom Blend</h3>
+                    <div class="selected-flavors-display" id="selected-flavors-display">
+                        <!-- Flavors will be populated here -->
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="order-summary">Order Summary</label>
+                        <textarea id="order-summary" name="order-summary" rows="8" readonly></textarea>
+                    </div>
+                    
+                    <div class="copy-summary-section">
+                        <button type="button" class="btn-secondary" id="copySummaryBtn">
+                            📋 Copy Blend Summary
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Details Container -->
+            <div class="order-details-container">
+                <div class="order-details-card">
+                    <h3>Order Details</h3>
+                    <form class="order-form" id="order-form">
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <select id="quantity" name="quantity">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="customer-name">Full Name</label>
+                            <input type="text" id="customer-name" name="customer-name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Shipping Address</label>
+                            <textarea id="address" name="address" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notes">Order Notes (Optional)</label>
+                            <textarea id="notes" name="notes" rows="3" placeholder="Any special requests or notes about your order..."></textarea>
+                        </div>
+                        
+                        <div class="order-actions">
+                            <button type="submit" class="btn-primary">Place Order</button>
+                            <button type="button" class="btn-secondary" onclick="clearProductForm()">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="cta-content">
@@ -1505,21 +1847,30 @@
             if (selectedFlavors.length === 2) {
                 showToast(`🎨 Creating your custom lip balm with ${selectedFlavors[0].name} and ${selectedFlavors[1].name}!`);
                 
+                // Store blend data in sessionStorage
+                const blendData = {
+                    flavors: selectedFlavors,
+                    summary: `🌿 LatherGreen Custom Lip Balm Blend 🌿\n\nFlavor Combination:\n• ${selectedFlavors[0].name}\n• ${selectedFlavors[1].name}\n\nPremium Ingredients:\n• Shea Butter\n• Coconut Oil\n• Beeswax\n• Vitamin E\n• Jojoba Oil\n• Green Tea Extract\n\nCreate your custom blend at: lip-balm-factory.vercel.app\n\n#LatherGreen #NaturalLipCare #CustomBlend`,
+                    productName: `Custom ${selectedFlavors[0].name} & ${selectedFlavors[1].name} Lip Balm`,
+                    price: '$12.99',
+                    timestamp: new Date().toISOString()
+                };
+                
+                sessionStorage.setItem('lathergreen_blend_data', JSON.stringify(blendData));
+                
                 // Simulate processing
                 this.disabled = true;
                 this.textContent = 'Creating...';
                 
                 setTimeout(() => {
-                    this.textContent = '✓ Order Created Successfully!';
-                    showToast('🎉 Your custom lip balm has been added to cart! Proceed to checkout.');
+                    this.textContent = '✓ Redirecting to product page...';
+                    showToast('🛒 Redirecting to complete your order...');
                     
-                    // Reset after 3 seconds
+                    // Scroll to product section
                     setTimeout(() => {
-                        this.textContent = 'Create My Lip Balm';
-                        this.disabled = false;
-                        resetFlavorSelection();
-                    }, 3000);
-                }, 2000);
+                        scrollToProductPage(blendData);
+                    }, 1000);
+                }, 1500);
             }
         });
 
@@ -1719,6 +2070,134 @@
                 imageObserver.observe(img);
             });
         }
+
+        // Product Page Functions
+        function scrollToProductPage(blendData) {
+            // Hide flavor section and show product section
+            document.getElementById('flavors').style.display = 'none';
+            document.getElementById('product-page').style.display = 'block';
+            
+            // Populate product information
+            populateProductPage(blendData);
+            
+            // Scroll to product section
+            const productSection = document.getElementById('product-page');
+            productSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Reset create button
+            createButton.textContent = 'Create My Lip Balm';
+            createButton.disabled = false;
+            resetFlavorSelection();
+        }
+
+        function populateProductPage(blendData) {
+            // Update product name and price
+            document.getElementById('product-name').textContent = blendData.productName;
+            document.getElementById('product-price').textContent = blendData.price;
+            
+            // Update selected flavors display
+            const flavorsDisplay = document.getElementById('selected-flavors-display');
+            flavorsDisplay.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <span style="font-size: 1.5rem;">🌿</span>
+                    <span>${blendData.flavors[0].name}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.5rem;">🌿</span>
+                    <span>${blendData.flavors[1].name}</span>
+                </div>
+            `;
+            
+            // Populate order summary
+            const orderSummary = document.getElementById('order-summary');
+            orderSummary.value = blendData.summary;
+            
+            // Add quantity change listener to update price
+            const quantitySelect = document.getElementById('quantity');
+            quantitySelect.addEventListener('change', updateTotalPrice);
+            
+            // Add copy summary button functionality
+            const copySummaryBtn = document.getElementById('copySummaryBtn');
+            copySummaryBtn.onclick = function() {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(blendData.summary).then(() => {
+                        showToast('📋 Blend summary copied to clipboard!');
+                    }).catch(err => {
+                        copyToClipboardFallback(blendData.summary);
+                    });
+                } else {
+                    copyToClipboardFallback(blendData.summary);
+                }
+            };
+            
+            // Initial price update
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const basePrice = 12.99;
+            const totalPrice = (basePrice * quantity).toFixed(2);
+            document.getElementById('product-price').textContent = `$${totalPrice}`;
+        }
+
+        function clearProductForm() {
+            const form = document.getElementById('order-form');
+            form.reset();
+            updateTotalPrice();
+            showToast('📝 Form cleared');
+        }
+
+        // Order form submission
+        document.getElementById('order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const quantity = parseInt(formData.get('quantity'));
+            const basePrice = 12.99;
+            const totalPrice = (basePrice * quantity).toFixed(2);
+            
+            // Simulate order processing
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
+            
+            setTimeout(() => {
+                submitButton.textContent = '✓ Order Placed Successfully!';
+                showToast(`🎉 Order placed! Total: $${totalPrice}. You will receive a confirmation email shortly.`);
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    this.reset();
+                    updateTotalPrice();
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Place Order';
+                    
+                    // Go back to flavor selection
+                    document.getElementById('product-page').style.display = 'none';
+                    document.getElementById('flavors').style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 3000);
+            }, 2000);
+        });
+
+        // Back to flavor selection
+        document.querySelector('.back-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('product-page').style.display = 'none';
+            document.getElementById('flavors').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Check for stored blend data on page load
+        window.addEventListener('load', function() {
+            const storedBlendData = sessionStorage.getItem('lathergreen_blend_data');
+            if (storedBlendData) {
+                const blendData = JSON.parse(storedBlendData);
+                // Optionally auto-populate if user returns to product page
+                console.log('Found stored blend data:', blendData);
+            }
+        });
     </script>
 </body>
 </html>

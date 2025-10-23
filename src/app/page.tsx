@@ -448,54 +448,45 @@ export default function Home() {
       </div>
 
       {/* TEXT SECTION - BELOW VIDEO */}
-      <div style={{ background: 'white', padding: '64px 0', borderBottom: '1px solid #e5e7eb' }}>
-        <div style={{ maxWidth: '896px', margin: '0 auto', padding: '0 16px', textAlign: 'center' }}>
-          <h1 style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '24px', color: '#111827' }}>
+      <div className="bg-white py-8 sm:py-12 lg:py-16 border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900">
             LatherGreen Lip Balm Factory
           </h1>
-          <p style={{ fontSize: '20px', color: '#6b7280', marginBottom: '32px', lineHeight: '1.6' }}>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed">
             Create your custom lip balm with premium ingredients. Mix up to 2 flavors to craft your perfect blend.
           </p>
           <button
             onClick={() => document.getElementById('customizer-section')?.scrollIntoView({ behavior: 'smooth' })}
-            style={{
-              background: '#059669',
-              color: 'white',
-              padding: '12px 32px',
-              borderRadius: '8px',
-              fontSize: '18px',
-              fontWeight: '500',
-              border: 'none',
-              cursor: 'pointer'
-            }}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium transition-colors duration-200 shadow-lg hover:shadow-xl"
           >
             Start Creating
           </button>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-6xl" id="customizer-section">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 max-w-6xl" id="customizer-section">
         {/* Educational Section */}
-        <Card className="mb-8 bg-gradient-to-br from-stone-50 to-gray-50 border-l-4 border-l-stone-400">
-          <CardHeader>
-            <CardTitle className="text-stone-800">Understanding Flavor Categories</CardTitle>
+        <Card className="mb-6 sm:mb-8 bg-gradient-to-br from-stone-50 to-gray-50 border-l-4 border-l-stone-400">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-stone-800 text-lg sm:text-xl">Understanding Flavor Categories</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-4 mb-6">
-              <div className="p-4 bg-white rounded-lg border border-stone-200">
-                <h4 className="font-semibold text-stone-800 mb-2">🥜 Nutty & Buttery</h4>
-                <p className="text-sm text-gray-600">Rich, creamy flavors like macadamia, almond, and coconut. Add depth and warmth to your blend.</p>
+          <CardContent className="pt-0">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+              <div className="p-3 sm:p-4 bg-white rounded-lg border border-stone-200">
+                <h4 className="font-semibold text-stone-800 mb-1 sm:mb-2 text-sm sm:text-base">🥜 Nutty & Buttery</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Rich, creamy flavors like macadamia, almond, and coconut. Add depth and warmth to your blend.</p>
               </div>
-              <div className="p-4 bg-white rounded-lg border border-stone-200">
-                <h4 className="font-semibold text-stone-800 mb-2">🍓 Fruity & Floral</h4>
-                <p className="text-sm text-gray-600">Bright, refreshing flavors like berries, citrus, and rose. Add a burst of freshness.</p>
+              <div className="p-3 sm:p-4 bg-white rounded-lg border border-stone-200">
+                <h4 className="font-semibold text-stone-800 mb-1 sm:mb-2 text-sm sm:text-base">🍓 Fruity & Floral</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Bright, refreshing flavors like berries, citrus, and rose. Add a burst of freshness.</p>
               </div>
-              <div className="p-4 bg-white rounded-lg border border-stone-200">
-                <h4 className="font-semibold text-stone-800 mb-2">🌿 Minty & Spicy</h4>
-                <p className="text-sm text-gray-600">Cool, refreshing or warm, aromatic flavors. Provide unique sensations.</p>
+              <div className="p-3 sm:p-4 bg-white rounded-lg border border-stone-200 sm:col-span-2 lg:col-span-1">
+                <h4 className="font-semibold text-stone-800 mb-1 sm:mb-2 text-sm sm:text-base">🌿 Minty & Spicy</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Cool, refreshing or warm, aromatic flavors. Provide unique sensations.</p>
               </div>
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="text-xs sm:text-sm text-gray-600">
               <strong>Pro Tip:</strong> Try combining flavors from different categories for unique taste experiences! 
               For example, mix chocolate with mint for a classic combination, or try vanilla with berry for a sweet treat.
             </p>
@@ -984,66 +975,82 @@ export default function Home() {
             <CardDescription>Review your custom lip balm and place your order</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="font-semibold mb-4 text-stone-800">Blend Summary</h3>
-                <div className="space-y-3">
+            {/* Mobile: Compact View, Desktop: Side-by-side */}
+            <div className="block lg:grid lg:grid-cols-2 gap-8">
+              {/* Blend Summary - More Compact on Mobile */}
+              <div className="mb-6 lg:mb-0">
+                <h3 className="font-semibold mb-3 lg:mb-4 text-stone-800 text-base lg:text-lg">Blend Summary</h3>
+                <div className="space-y-2 lg:space-y-3">
                   {creationName && (
-                    <div>
-                      <p className="font-medium">Creation Name:</p>
-                      <p className="text-stone-800">{creationName}</p>
+                    <div className="flex justify-between items-center py-1">
+                      <span className="font-medium text-sm lg:text-base">Name:</span>
+                      <span className="text-stone-800 text-sm lg:text-base text-right max-w-[60%] truncate">{creationName}</span>
                     </div>
                   )}
-                  <div>
-                    <p className="font-medium">Base:</p>
-                    <p>{BASES.find(b => b.id === base)?.name || 'None selected'}</p>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="font-medium text-sm lg:text-base">Base:</span>
+                    <span className="text-sm lg:text-base text-right max-w-[60%]">{BASES.find(b => b.id === base)?.name || 'None'}</span>
                   </div>
-                  <div>
-                    <p className="font-medium">Flavors:</p>
-                    <p>{flavors.length > 0 ? flavors.map(f => f.name).join(', ') : 'None selected'}</p>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="font-medium text-sm lg:text-base">Flavors:</span>
+                    <span className="text-sm lg:text-base text-right max-w-[60%]">{flavors.length > 0 ? flavors.map(f => f.name).join(', ') : 'None'}</span>
                   </div>
-                  <div>
-                    <p className="font-medium">Packaging:</p>
-                    <p>{PACKAGING.find(p => p.id === packaging)?.name || 'None selected'}</p>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="font-medium text-sm lg:text-base">Packaging:</span>
+                    <span className="text-sm lg:text-base text-right max-w-[60%]">{PACKAGING.find(p => p.id === packaging)?.name || 'None'}</span>
                   </div>
                 </div>
                 
                 {base && flavors.length > 0 && packaging && (
-                  <div className="mt-6 p-4 bg-gradient-to-r from-amber-100 via-stone-100 to-amber-100 rounded-lg border border-amber-300">
-                    <p className="text-stone-800 font-semibold text-center">
-                      🎉 Congratulations! Your custom lip balm creation is complete!
+                  <div className="mt-4 p-3 lg:p-4 bg-gradient-to-r from-amber-100 via-stone-100 to-amber-100 rounded-lg border border-amber-300">
+                    <p className="text-stone-800 font-semibold text-center text-sm lg:text-base">
+                      🎉 Your custom blend is ready!
                     </p>
-                    <p className="text-stone-600 text-sm text-center mt-1">
-                      The blend summary needs to be copied then you're ready to order your unique blend.
+                    <p className="text-stone-600 text-xs lg:text-sm text-center mt-1">
+                      Copy summary below to order
                     </p>
                   </div>
                 )}
               </div>
               
+              {/* Order Details - More Compact on Mobile */}
               <div>
-                <h3 className="font-semibold mb-4 text-stone-800">Order Details</h3>
-                <div className="bg-gradient-to-br from-amber-50 to-stone-50 p-4 rounded-lg border border-amber-200">
-                  <div className="space-y-2 mb-4">
-                    <p><strong>Quantity:</strong> 6 lip balms</p>
-                    <p><strong>Base:</strong> {BASES.find(b => b.id === base)?.name || 'None'}</p>
-                    <p><strong>Flavors:</strong> {flavors.length > 0 ? flavors.map(f => f.name).join(', ') : 'None'}</p>
-                    <p><strong>Packaging:</strong> {PACKAGING.find(p => p.id === packaging)?.name || 'Classic Tube'}</p>
+                <h3 className="font-semibold mb-3 lg:mb-4 text-stone-800 text-base lg:text-lg">Order Details</h3>
+                <div className="bg-gradient-to-br from-amber-50 to-stone-50 p-3 lg:p-4 rounded-lg border border-amber-200">
+                  <div className="space-y-1 lg:space-y-2 mb-3 lg:mb-4 text-sm lg:text-base">
+                    <div className="flex justify-between">
+                      <span>Quantity:</span>
+                      <span className="font-medium">6 lip balms</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Base:</span>
+                      <span className="font-medium truncate max-w-[50%]">{BASES.find(b => b.id === base)?.name || 'None'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Flavors:</span>
+                      <span className="font-medium truncate max-w-[50%]">{flavors.length > 0 ? flavors.map(f => f.name).join(', ') : 'None'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Packaging:</span>
+                      <span className="font-medium truncate max-w-[50%]">{PACKAGING.find(p => p.id === packaging)?.name || 'Classic'}</span>
+                    </div>
                   </div>
-                  <Separator className="my-4" />
-                  <div className="text-2xl font-bold bg-gradient-to-r from-amber-700 to-yellow-600 bg-clip-text text-transparent">
+                  <Separator className="my-2 lg:my-4" />
+                  <div className="text-lg lg:text-2xl font-bold bg-gradient-to-r from-amber-700 to-yellow-600 bg-clip-text text-transparent text-center">
                     Total: ${totalPrice}
                   </div>
                 </div>
                 
-                <div className="flex gap-3 mt-6">
-                  <Button onClick={handleOrder} className="flex-1 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" size="lg"
-              style={{ background: 'linear-gradient(135deg, rgb(217 119 6), rgb(180 83 9))' }}>
+                {/* Stacked Buttons on Mobile, Side-by-side on Desktop */}
+                <div className="flex flex-col sm:flex-row gap-2 lg:gap-3 mt-4 lg:mt-6">
+                  <Button onClick={handleOrder} className="flex-1 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm lg:text-base py-2 lg:py-3" 
+                    style={{ background: 'linear-gradient(135deg, rgb(217 119 6), rgb(180 83 9))' }}>
                     <ShoppingCart className="w-4 h-4 mr-2" />
-                    Order Now - ${totalPrice}
+                    Order - ${totalPrice}
                   </Button>
-                  <Button onClick={copySummary} variant="outline" size="lg" className="border-amber-300 text-amber-700 hover:bg-amber-50">
+                  <Button onClick={copySummary} variant="outline" className="flex-1 border-amber-300 text-amber-700 hover:bg-amber-50 text-sm lg:text-base py-2 lg:py-3">
                     <Copy className="w-4 h-4 mr-2" />
-                    Copy Blend Summary
+                    Copy Summary
                   </Button>
                 </div>
               </div>
